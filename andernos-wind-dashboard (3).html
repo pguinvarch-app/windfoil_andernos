@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andernos Wingfoil — Conditions</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Bricolage+Grotesque:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ocean: #0c1824;
+  --deep: #07101a;
+  --glass: rgba(255,255,255,0.05);
+  --glass-border: rgba(255,255,255,0.1);
+  --glass-hover: rgba(255,255,255,0.08);
+  --text: #f0f4f8;
+  --muted: rgba(240,244,248,0.45);
+  --accent: #00d4ff;
+  --accent2: #00ff9d;
+  --warm: #ff9844;
+  --danger: #ff4d6d;
+
+  --excellent: #00ff9d;
+  --good: #ffe033;
+  --medium: #ff9844;
+  --poor: #ff4d6d;
+  --none: #2d4a5e;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--deep);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── HERO ─────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+/* SVG scene background */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.hero-bg svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(7,16,26,0.15) 0%,
+    rgba(7,16,26,0.05) 35%,
+    rgba(7,16,26,0.6) 72%,
+    rgba(7,16,26,1) 100%
+  );
+}
+
+/* Animated shimmer on water */
+.shimmer {
+  position: absolute;
+  bottom: 200px;
+  left: 0; right: 0;
+  height: 80px;
+  overflow: hidden;
+  mix-blend-mode: screen;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.shimmer-line {
+  position: absolute;
+  height: 1px;
+  width: 200px;
+  background: linear-gradient(90deg, transparent, rgba(0,212,255,0.8), transparent);
+  animation: shim 4s ease-in-out infinite;
+  border-radius: 1px;
+}
+
+.shimmer-line:nth-child(1) { top: 10px; left: 15%; animation-delay: 0s; animation-duration: 5s; }
+.shimmer-line:nth-child(2) { top: 25px; left: 45%; animation-delay: -1.5s; animation-duration: 4s; width: 140px; }
+.shimmer-line:nth-child(3) { top: 45px; left: 65%; animation-delay: -3s; animation-duration: 6s; width: 180px; }
+.shimmer-line:nth-child(4) { top: 60px; left: 25%; animation-delay: -0.8s; animation-duration: 4.5s; width: 100px; }
+
+@keyframes shim {
+  0%, 100% { opacity: 0; transform: translateX(-40px); }
+  30%, 70% { opacity: 1; transform: translateX(40px); }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 3rem 3rem 3rem;
+}
+
+.hero-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.hero-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  font-weight: 800;
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.25rem;
+}
+
+.hero-title .line2 {
+  color: var(--accent);
+  display: block;
+}
+
+.hero-subtitle {
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-weight: 300;
+  max-width: 380px;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.hero-stat-val {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text);
+}
+
+.hero-stat-val.c-accent { color: var(--accent); }
+.hero-stat-val.c-warm   { color: var(--warm); }
+.hero-stat-val.c-green  { color: var(--excellent); }
+
+.hero-stat-label {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  right: 3rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.scroll-hint:hover { color: var(--text); }
+.scroll-arrow {
+  width: 18px; height: 18px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: rotate(45deg);
+  animation: bounce 2s infinite;
+}
+@keyframes bounce {
+  0%,100% { transform: rotate(45deg) translateY(0); }
+  50%      { transform: rotate(45deg) translateY(5px); }
+}
+
+/* ─── STICKY BAR ─────────────────────────────────────────── */
+.sticky-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(7,16,26,0.9);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 0.8rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.sticky-brand {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+
+.sticky-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 100px;
+  font-size: 0.68rem;
+  font-weight: 500;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  color: var(--muted);
+  white-space: nowrap;
+}
+.tag.tw { color: var(--accent); border-color: rgba(0,212,255,0.2); background: rgba(0,212,255,0.05); }
+.tag.ta { color: var(--warm);   border-color: rgba(255,152,68,0.2); background: rgba(255,152,68,0.05); }
+.tag.tl { color: var(--excellent); border-color: rgba(0,255,157,0.2); background: rgba(0,255,157,0.05); }
+
+.btn-refresh {
+  background: none;
+  border: 1px solid var(--glass-border);
+  color: var(--muted);
+  padding: 0.3rem 1rem;
+  border-radius: 100px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.68rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.04em;
+}
+.btn-refresh:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,212,255,0.05); }
+
+#last-updated { font-size: 0.6rem; color: var(--muted); }
+
+/* ─── CONTENT ────────────────────────────────────────────── */
+.content {
+  padding: 3rem;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* Legend */
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--glass-border);
+}
+.legend-label {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+}
+.legend-items {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+.ldot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Next window */
+.next-window {
+  background: linear-gradient(135deg, rgba(0,255,157,0.05), rgba(0,212,255,0.05));
+  border: 1px solid rgba(0,255,157,0.15);
+  border-radius: 1.5rem;
+  padding: 1.75rem 2rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+}
+.next-window::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 120px; height: 120px;
+  background: radial-gradient(circle, rgba(0,255,157,0.08), transparent);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.nw-icon { font-size: 2.5rem; flex-shrink: 0; }
+.nw-body h3 {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--excellent);
+  margin-bottom: 0.3rem;
+}
+.nw-body p { font-size: 0.78rem; color: var(--muted); }
+.nw-time {
+  margin-left: auto;
+  text-align: right;
+}
+.nw-big {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1;
+}
+.nw-date { font-size: 0.72rem; color: var(--muted); margin-top: 0.25rem; }
+
+/* Section label */
+.section-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--glass-border);
+}
+
+/* ─── DAY CARDS ──────────────────────────────────────────── */
+.days-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.day-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 1.2rem;
+  overflow: hidden;
+  transition: border-color 0.25s, background 0.25s;
+}
+.day-card:hover { border-color: rgba(0,212,255,0.2); }
+.day-card.today { border-color: rgba(0,212,255,0.28); background: rgba(0,212,255,0.025); }
+
+.day-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  flex-wrap: wrap;
+}
+.day-header:hover { background: rgba(255,255,255,0.02); }
+
+.day-info { flex-shrink: 0; width: 135px; }
+.day-name {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+.day-date-str { font-size: 0.62rem; color: var(--muted); margin-top: 0.1rem; }
+
+.hour-strip {
+  display: flex;
+  gap: 3px;
+  flex: 1;
+  overflow: hidden;
+  align-items: center;
+}
+.hdot {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.48rem;
+  font-weight: 700;
+  color: rgba(0,0,0,0.75);
+  transition: transform 0.15s;
+  cursor: default;
+}
+.hdot:hover { transform: scale(1.3); }
+
+.score-badge {
+  flex-shrink: 0;
+  padding: 0.32rem 0.9rem;
+  border-radius: 100px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.sb-excellent { background: rgba(0,255,157,0.12); color: var(--excellent); border: 1px solid rgba(0,255,157,0.25); }
+.sb-good      { background: rgba(255,224,51,0.12); color: var(--good);      border: 1px solid rgba(255,224,51,0.25); }
+.sb-medium    { background: rgba(255,152,68,0.12); color: var(--medium);    border: 1px solid rgba(255,152,68,0.25); }
+.sb-poor      { background: rgba(255,77,109,0.1);  color: var(--poor);      border: 1px solid rgba(255,77,109,0.2);  }
+.sb-none      { background: rgba(255,255,255,0.03);color: var(--muted);     border: 1px solid var(--glass-border);   }
+
+.chev {
+  flex-shrink: 0;
+  color: var(--muted);
+  transition: transform 0.2s, color 0.2s;
+}
+.day-header.open .chev { transform: rotate(180deg); color: var(--accent); }
+
+/* Weather summary pill */
+.wx-summary {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--glass-border);
+  border-radius: 0.75rem;
+  padding: 0.45rem 0.85rem;
+  transition: background 0.2s;
+}
+.wx-summary:hover { background: rgba(255,255,255,0.07); }
+.wx-icon-big { font-size: 1.6rem; line-height: 1; }
+.wx-temps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  line-height: 1.1;
+}
+.wx-tmax {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fbbf24;
+}
+.wx-tmin {
+  font-size: 0.62rem;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.day-body { display: none; padding: 0 1.5rem 1.5rem; }
+.day-body.open { display: block; }
+
+.tide-info-bar {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0.7rem 1rem;
+  background: rgba(0,212,255,0.04);
+  border: 1px solid rgba(0,212,255,0.1);
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+.ht-entry {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.ht-time {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.hours-wrap {
+  overflow-x: auto;
+  border-radius: 0.75rem;
+  border: 1px solid var(--glass-border);
+}
+
+table.htable {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+}
+table.htable th {
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  text-align: left;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--glass-border);
+  background: rgba(255,255,255,0.02);
+  white-space: nowrap;
+}
+table.htable td {
+  padding: 0.55rem 1rem;
+  font-size: 0.76rem;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+table.htable tr:last-child td { border-bottom: none; }
+table.htable tr.hrow { transition: background 0.12s; }
+table.htable tr.hrow:hover { background: rgba(255,255,255,0.025); }
+table.htable tr.hrow.hl { background: rgba(0,255,157,0.04); }
+
+.ws-strong { color: var(--excellent); font-weight: 600; }
+.ws-ok     { color: var(--good); }
+.ws-med    { color: var(--medium); }
+.ws-weak   { color: var(--muted); }
+
+.tide-vis {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.tbar {
+  width: 48px;
+  height: 4px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.tfill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), rgba(0,212,255,0.4));
+  border-radius: 2px;
+}
+
+.tw-yes { color: var(--excellent); font-size: 0.68rem; }
+.tw-no  { color: var(--muted); font-size: 0.68rem; }
+
+.iscore {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  margin-right: 0.4rem;
+  vertical-align: middle;
+}
+
+/* ─── LOADING / ERROR ────────────────────────────────────── */
+.loading-screen {
+  padding: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+.loader {
+  display: flex;
+  gap: 4px;
+  align-items: flex-end;
+}
+.loader span {
+  width: 4px;
+  background: var(--accent);
+  border-radius: 2px;
+  animation: lw 1.2s ease-in-out infinite;
+  opacity: 0.8;
+}
+.loader span:nth-child(1){height:14px;animation-delay:0s}
+.loader span:nth-child(2){height:26px;animation-delay:.1s}
+.loader span:nth-child(3){height:18px;animation-delay:.2s}
+.loader span:nth-child(4){height:30px;animation-delay:.3s}
+.loader span:nth-child(5){height:14px;animation-delay:.4s}
+.loader span:nth-child(6){height:22px;animation-delay:.5s}
+@keyframes lw {
+  0%,100%{transform:scaleY(.45);opacity:.35}
+  50%{transform:scaleY(1);opacity:1}
+}
+.loading-text {
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+.error-card {
+  background: rgba(255,77,109,0.06);
+  border: 1px solid rgba(255,77,109,0.2);
+  border-radius: 1rem;
+  padding: 2rem;
+  color: #ff9aaa;
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-content { padding: 2rem 1.5rem; }
+  .hero-title { font-size: 3rem; }
+  .content, .sticky-bar { padding: 2rem 1.5rem; }
+  .nw-time { margin-left: 0; }
+  .day-info { width: 90px; }
+  .hero-stats { gap: 1.5rem; }
+  .tag.tl { display: none; }
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<!-- ─── HERO ──────────────────────────────────────────────── -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#060e1c"/>
+          <stop offset="35%" stop-color="#0b2040"/>
+          <stop offset="65%" stop-color="#0e3358"/>
+          <stop offset="100%" stop-color="#091a30"/>
+        </linearGradient>
+        <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0d3358"/>
+          <stop offset="60%" stop-color="#081a2e"/>
+          <stop offset="100%" stop-color="#040c16"/>
+        </linearGradient>
+        <radialGradient id="sunburst" cx="72%" cy="28%" r="40%">
+          <stop offset="0%" stop-color="#ff9844" stop-opacity="0.22"/>
+          <stop offset="60%" stop-color="#ff6600" stop-opacity="0.06"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="suncore" cx="72%" cy="28%" r="8%">
+          <stop offset="0%" stop-color="#ffe082" stop-opacity="0.9"/>
+          <stop offset="50%" stop-color="#ffaa33" stop-opacity="0.4"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <radialGradient id="moonrefl" cx="72%" cy="65%" r="8%">
+          <stop offset="0%" stop-color="#ff9844" stop-opacity="0.15"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+        <filter id="blur3">
+          <feGaussianBlur stdDeviation="3"/>
+        </filter>
+        <filter id="blur8">
+          <feGaussianBlur stdDeviation="8"/>
+        </filter>
+        <linearGradient id="wingGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#00aadd" stop-opacity="0.7"/>
+          <stop offset="40%" stop-color="#00d4ff" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#0088bb" stop-opacity="0.5"/>
+        </linearGradient>
+        <linearGradient id="foilGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#7fb8d0" stop-opacity="0.5"/>
+          <stop offset="50%" stop-color="#aaddee" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#7fb8d0" stop-opacity="0.5"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Sky -->
+      <rect width="1920" height="1080" fill="url(#sky)"/>
+      <rect width="1920" height="1080" fill="url(#sunburst)"/>
+
+      <!-- Stars (small dots) -->
+      <g fill="#ffffff" opacity="0.5">
+        <circle cx="120" cy="80" r="1"/><circle cx="280" cy="55" r="1.2"/>
+        <circle cx="420" cy="110" r="0.8"/><circle cx="560" cy="40" r="1"/>
+        <circle cx="700" cy="90" r="1.2"/><circle cx="180" cy="180" r="0.8"/>
+        <circle cx="350" cy="150" r="1"/><circle cx="500" cy="200" r="0.8"/>
+        <circle cx="900" cy="60" r="1"/><circle cx="1050" cy="100" r="1.2"/>
+        <circle cx="1150" cy="45" r="0.8"/><circle cx="200" cy="300" r="0.6"/>
+        <circle cx="450" cy="260" r="0.8"/><circle cx="650" cy="240" r="0.6"/>
+      </g>
+
+      <!-- Sun -->
+      <circle cx="1382" cy="302" r="52" fill="#ffdd66" opacity="0.88"/>
+      <circle cx="1382" cy="302" r="68" fill="#ffbb44" opacity="0.18" filter="url(#blur3)"/>
+      <circle cx="1382" cy="302" r="100" fill="#ff8800" opacity="0.1" filter="url(#blur8)"/>
+      <rect width="1920" height="1080" fill="url(#suncore)"/>
+
+      <!-- Horizon shimmer -->
+      <rect x="0" y="575" width="1920" height="3" fill="#7ee8fa" opacity="0.12"/>
+
+      <!-- Water -->
+      <rect x="0" y="578" width="1920" height="502" fill="url(#water)"/>
+
+      <!-- Sun reflection column -->
+      <rect width="1920" height="1080" fill="url(#moonrefl)"/>
+      <rect x="1340" y="578" width="84" height="502" fill="#ff9844" opacity="0.04"/>
+
+      <!-- Water ripple lines -->
+      <g stroke="#7ee8fa" stroke-width="0.8" opacity="0.1">
+        <line x1="0" y1="610" x2="1920" y2="612"/><line x1="0" y1="640" x2="1920" y2="638"/>
+        <line x1="0" y1="675" x2="1920" y2="673"/><line x1="0" y1="720" x2="1920" y2="722"/>
+        <line x1="0" y1="780" x2="1920" y2="778"/><line x1="0" y1="860" x2="1920" y2="862"/>
+      </g>
+      <!-- Subtle wave curves -->
+      <path d="M0 595 Q240 590 480 598 Q720 606 960 596 Q1200 586 1440 595 Q1680 604 1920 595" fill="none" stroke="#00d4ff" stroke-width="1" opacity="0.12"/>
+      <path d="M0 625 Q320 618 640 627 Q960 636 1280 623 Q1600 610 1920 624" fill="none" stroke="#00aacc" stroke-width="0.8" opacity="0.09"/>
+
+      <!-- ══ WINGFOIL RIDER ══ -->
+      <!-- Shadow/reflection on water -->
+      <ellipse cx="920" cy="615" rx="80" ry="14" fill="#000d1a" opacity="0.35"/>
+
+      <!-- Board (foilboard) -->
+      <ellipse cx="920" cy="598" rx="52" ry="9" fill="#e8eef4" opacity="0.92"/>
+      <ellipse cx="920" cy="598" rx="52" ry="9" fill="#c8d8e8" opacity="0.4"/>
+
+      <!-- Foil mast -->
+      <line x1="920" y1="604" x2="920" y2="650" stroke="#b0c8d8" stroke-width="4" stroke-linecap="round" opacity="0.85"/>
+      <!-- Fuselage -->
+      <line x1="895" y1="648" x2="945" y2="648" stroke="#90b8cc" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+      <!-- Front foil wing (big) -->
+      <ellipse cx="930" cy="652" rx="75" ry="11" fill="url(#foilGrad)" opacity="0.8"/>
+      <!-- Rear stabilizer -->
+      <ellipse cx="900" cy="652" rx="28" ry="6" fill="#90c0d4" opacity="0.6"/>
+
+      <!-- Rider body -->
+      <ellipse cx="925" cy="578" rx="13" ry="9" fill="#1a3a52" opacity="0.95"/><!-- hips -->
+      <rect x="916" y="560" width="18" height="24" rx="5" fill="#0f2535" opacity="0.92"/><!-- torso -->
+      <!-- Legs straddle -->
+      <line x1="921" y1="583" x2="910" y2="597" stroke="#1a3a52" stroke-width="6" stroke-linecap="round" opacity="0.9"/>
+      <line x1="929" y1="583" x2="940" y2="597" stroke="#1a3a52" stroke-width="6" stroke-linecap="round" opacity="0.9"/>
+      <!-- Helmet/head -->
+      <circle cx="925" cy="554" r="13" fill="#e8c060" opacity="0.92"/><!-- helmet -->
+      <circle cx="925" cy="554" r="11" fill="#cc9922" opacity="0.6"/>
+      <!-- Visor -->
+      <path d="M915 553 Q925 548 935 553" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.5"/>
+
+      <!-- ══ WING ══ -->
+      <!-- Wing inflated shape — leading edge -->
+      <path d="M840 480 Q870 440 940 428 Q1010 418 1060 445 Q1090 458 1080 475 Q1060 490 990 498 Q930 505 880 500 Q848 497 840 480 Z"
+            fill="url(#wingGrad)" opacity="0.82"/>
+      <!-- Wing highlight -->
+      <path d="M860 475 Q890 455 950 445 Q1010 435 1055 452"
+            fill="none" stroke="#7ee8ff" stroke-width="1.5" opacity="0.45"/>
+      <!-- Wing seams/bladders -->
+      <path d="M870 478 Q930 462 1020 465" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="4 3"/>
+      <path d="M880 490 Q935 476 1035 480" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="3 4"/>
+      <!-- Struts (handles) -->
+      <line x1="935" y1="498" x2="927" y2="567" stroke="#88ccdd" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+      <line x1="970" y1="492" x2="930" y2="562" stroke="#88ccdd" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+      <!-- Rider arms holding wing -->
+      <line x1="927" y1="567" x2="935" y2="498" stroke="#1a3a52" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+      <line x1="916" y1="563" x2="970" y2="492" stroke="#1a3a52" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+
+      <!-- Water spray around board -->
+      <ellipse cx="870" cy="598" rx="25" ry="6" fill="#ffffff" opacity="0.12"/>
+      <ellipse cx="970" cy="600" rx="20" ry="5" fill="#ffffff" opacity="0.1"/>
+      <!-- Small spray dots -->
+      <circle cx="855" cy="592" r="2" fill="#ffffff" opacity="0.2"/>
+      <circle cx="862" cy="588" r="1.5" fill="#ffffff" opacity="0.15"/>
+      <circle cx="978" cy="593" r="2" fill="#ffffff" opacity="0.18"/>
+      <circle cx="985" cy="589" r="1.5" fill="#ffffff" opacity="0.12"/>
+
+      <!-- Clouds (soft, distant) -->
+      <ellipse cx="250" cy="160" rx="200" ry="48" fill="#ffffff" opacity="0.035" filter="url(#blur8)"/>
+      <ellipse cx="550" cy="130" rx="250" ry="52" fill="#ffffff" opacity="0.028" filter="url(#blur8)"/>
+      <ellipse cx="1050" cy="200" rx="180" ry="42" fill="#ffffff" opacity="0.03" filter="url(#blur8)"/>
+      <ellipse cx="1700" cy="140" rx="160" ry="38" fill="#ffddaa" opacity="0.03" filter="url(#blur8)"/>
+
+      <!-- Distant coastline — Dune du Pilat suggestion -->
+      <path d="M1500 560 Q1580 530 1660 548 Q1740 565 1820 555 Q1880 548 1920 552 L1920 578 L1500 578 Z"
+            fill="#0a1e2e" opacity="0.75"/>
+      <!-- Pine tree line right -->
+      <g fill="#040f1a" opacity="0.85">
+        <polygon points="1540,560 1550,530 1560,560"/>
+        <polygon points="1552,562 1564,526 1576,562"/>
+        <polygon points="1572,560 1582,534 1592,560"/>
+        <polygon points="1595,562 1607,528 1619,562"/>
+        <polygon points="1618,560 1628,536 1638,560"/>
+        <polygon points="1642,561 1654,532 1666,561"/>
+        <polygon points="1668,560 1680,530 1692,560"/>
+        <polygon points="1710,561 1720,535 1730,561"/>
+        <polygon points="1750,560 1762,528 1774,560"/>
+        <polygon points="1790,562 1802,532 1814,562"/>
+        <polygon points="1830,560 1840,536 1850,560"/>
+        <polygon points="1862,561 1874,530 1886,561"/>
+      </g>
+
+      <!-- Distant boats (tiny) -->
+      <g opacity="0.3">
+        <ellipse cx="1600" cy="592" rx="8" ry="2" fill="#ccddee"/>
+        <line x1="1600" y1="590" x2="1600" y2="580" stroke="#aabbcc" stroke-width="0.8"/>
+        <path d="M1598 580 L1600 576 L1602 580 Z" fill="#ccddee"/>
+        <ellipse cx="1680" cy="594" rx="6" ry="1.5" fill="#ccddee"/>
+        <line x1="1680" y1="593" x2="1680" y2="585" stroke="#aabbcc" stroke-width="0.7"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="hero-overlay"></div>
+  <div class="shimmer">
+    <div class="shimmer-line"></div>
+    <div class="shimmer-line"></div>
+    <div class="shimmer-line"></div>
+    <div class="shimmer-line"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Bassin d'Arcachon · Andernos-Betey</div>
+    <h1 class="hero-title">WINGFOIL<br><span class="line2">CONDITIONS</span></h1>
+    <p class="hero-subtitle">Prévisions 10 jours · Vent, marées &amp; qualité des sessions</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-val c-accent" id="hs-wind">—</div>
+        <div class="hero-stat-label">Vent maintenant</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val c-warm" id="hs-air">—</div>
+        <div class="hero-stat-label">Temp. air</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val c-accent" id="hs-water">—</div>
+        <div class="hero-stat-label">Temp. eau</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val c-green" id="hs-score">—</div>
+        <div class="hero-stat-label">Meilleure session auj.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint" onclick="document.getElementById('app').scrollIntoView({behavior:'smooth'})">
+    <span>Voir prévisions</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ─── APP ───────────────────────────────────────────────── -->
+<div id="app">
+
+  <div class="sticky-bar">
+    <div class="sticky-brand">⚓ Andernos Wingfoil</div>
+    <div class="sticky-right">
+      <span class="tag tl">📍 Betey — 44.738°N</span>
+      <span class="tag ta" id="sb-air">🌡 —°C</span>
+      <span class="tag tw" id="sb-water">🌊 —°C</span>
+      <span id="last-updated"></span>
+      <button class="btn-refresh" onclick="loadAll()">↻ Actualiser</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="legend-row">
+      <span class="legend-label">Indice qualité</span>
+      <div class="legend-items">
+        <div class="legend-item"><div class="ldot" style="background:var(--excellent)"></div>Excellent — vent ≥10kt + fenêtre ±2h marée haute</div>
+        <div class="legend-item"><div class="ldot" style="background:var(--good)"></div>Bon — vent ≥10kt ou fenêtre marée</div>
+        <div class="legend-item"><div class="ldot" style="background:var(--medium)"></div>Moyen — vent 6–9kt</div>
+        <div class="legend-item"><div class="ldot" style="background:var(--poor)"></div>Faible &lt;6kt</div>
+      </div>
+    </div>
+
+    <div class="next-window" id="next-window" style="display:none">
+      <div class="nw-icon">🏄</div>
+      <div class="nw-body">
+        <h3>Prochaine fenêtre optimale</h3>
+        <p id="nw-desc">Vent ≥10kt avec marée haute — conditions idéales</p>
+      </div>
+      <div class="nw-time" id="nw-time">
+        <div class="nw-big" id="nw-heure">—</div>
+        <div class="nw-date" id="nw-date">—</div>
+      </div>
+    </div>
+
+    <div class="section-label">Prévisions 10 jours</div>
+    <div class="days-list" id="days-list">
+      <div class="loading-screen">
+        <div class="loader"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="loading-text">Chargement des données météo…</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const LAT = 44.7378, LON = -1.0833, DAYS = 10;
+
+async function fetchWeather() {
+  const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&hourly=temperature_2m,windspeed_10m,winddirection_10m,weathercode&windspeed_unit=kn&forecast_days=${DAYS}&timezone=Europe%2FParis`);
+  if (!r.ok) throw new Error('API météo inaccessible. Ouvrez ce fichier dans votre navigateur.');
+  return r.json();
+}
+
+async function fetchSea() {
+  try {
+    const r = await fetch(`https://marine-api.open-meteo.com/v1/marine?latitude=${LAT}&longitude=${LON}&hourly=sea_surface_temperature&forecast_days=3&timezone=Europe%2FParis`);
+    if (!r.ok) return null;
+    const d = await r.json();
+    const v = d.hourly.sea_surface_temperature.slice(6,30).filter(x=>x!=null);
+    return v.length ? (v.reduce((a,b)=>a+b,0)/v.length).toFixed(1) : null;
+  } catch { return null; }
+}
+
+function buildTides(dayKeys) {
+  const M2 = 44714000, MEAN = 2.35, AMP = 1.75;
+  const REF = new Date('2026-02-27T06:50:00+01:00').getTime();
+  const start = new Date(dayKeys[0]+'T00:00:00+01:00');
+  const out = [];
+  for (let h = 0; h < DAYS*24+8; h++) {
+    const t = new Date(start.getTime() + h*3600000);
+    const ph = 2*Math.PI*(t.getTime()-REF)/M2;
+    out.push({ t, h: parseFloat((MEAN + AMP*Math.cos(ph)).toFixed(2)) });
+  }
+  return out;
+}
+
+function extrema(arr) {
+  const ex = [];
+  for (let i=1;i<arr.length-1;i++) {
+    const p=arr[i-1].h,c=arr[i].h,n=arr[i+1].h;
+    if (c>p&&c>n) ex.push({t:arr[i].t,h:c,type:'HT'});
+    else if (c<p&&c<n) ex.push({t:arr[i].t,h:c,type:'LT'});
+  }
+  return ex;
+}
+
+function tideWin(dt, exArr) {
+  const W = 7200000;
+  for (const e of exArr) {
+    if (e.type!=='HT') continue;
+    const d = dt.getTime()-e.t.getTime();
+    if (Math.abs(d)<=W) return {yes:true,diff:Math.round(d/60000),ht:e.t};
+  }
+  return {yes:false};
+}
+
+function sc(wind, inW) {
+  if (wind>=10&&inW) return 'excellent';
+  if (wind>=10||inW&&wind>=6) return 'good';
+  if (wind>=6) return 'medium';
+  if (wind>=3) return 'poor';
+  return 'none';
+}
+
+const ORD=['excellent','good','medium','poor','none'];
+function best(hrs){let b='none';for(const h of hrs)if(ORD.indexOf(h.score)<ORD.indexOf(b))b=h.score;return b;}
+
+const COL={excellent:'#00ff9d',good:'#ffe033',medium:'#ff9844',poor:'#ff4d6d',none:'#1e3a4a'};
+const TXT={excellent:'🟢 Excellent',good:'🟡 Bon',medium:'🟠 Moyen',poor:'🔴 Faible',none:'⚫ Calme'};
+const CSS={excellent:'sb-excellent',good:'sb-good',medium:'sb-medium',poor:'sb-poor',none:'sb-none'};
+
+const DIRS=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSO','SO','OSO','O','ONO','NO','NNO'];
+const dn=d=>DIRS[Math.round(d/22.5)%16];
+const arr=d=>`<span style="display:inline-block;transform:rotate(${d}deg);font-size:1.1em;opacity:.8">↑</span>`;
+const wx=c=>c===0?'☀️':c<=2?'⛅':c<=3?'☁️':c<=49?'🌫️':c<=59?'🌦️':c<=69?'🌧️':c<=79?'🌨️':c<=84?'🌧️':'⛈️';
+const f2=n=>String(Math.round(n)).padStart(2,'0');
+
+function tbar(h,mx=4.2){const p=Math.round(h/mx*100);return`<div class="tide-vis"><div class="tbar"><div class="tfill" style="width:${p}%"></div></div><span style="font-size:.7rem;color:var(--muted)">${h.toFixed(1)}m</span></div>`;}
+
+async function loadAll(){
+  const list=document.getElementById('days-list');
+  list.innerHTML=`<div class="loading-screen"><div class="loader"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="loading-text">Chargement des données météo…</div></div>`;
+  try {
+    const [wth,sea]=await Promise.all([fetchWeather(),fetchSea()]);
+    const ST=sea||'~14';
+    document.getElementById('sb-water').textContent=`🌊 ${ST}°C`;
+    document.getElementById('last-updated').textContent=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+
+    const {time,temperature_2m:T,windspeed_10m:W,winddirection_10m:WD,weathercode:WC}=wth.hourly;
+    const dayKeys=[...new Set(time.map(t=>t.slice(0,10)))].slice(0,DAYS);
+    const tideArr=buildTides(dayKeys);
+
+    const allDays=dayKeys.map(dk=>{
+      const idxs=time.reduce((a,t,i)=>t.startsWith(dk)?[...a,i]:a,[]);
+      const ds=new Date(dk+'T00:00:00+01:00').getTime();
+      const de=new Date(dk+'T23:59:59+01:00').getTime();
+      const dt=tideArr.filter(x=>x.t.getTime()>=ds-4*3.6e6&&x.t.getTime()<=de+4*3.6e6);
+      const ex=extrema(dt);
+      const hours=idxs.map(i=>{
+        const d=new Date(time[i]);
+        const tw=tideArr.find(x=>Math.abs(x.t.getTime()-d.getTime())<1800000);
+        const th=tw?tw.h:2.35;
+        const win=tideWin(d,ex);
+        return{dt:d,hour:d.getHours(),temp:T[i],wind:W[i],dir:WD[i],code:WC[i],tideH:th,inWindow:win.yes,diff:win.diff,score:sc(W[i],win.yes),extrema:ex};
+      });
+      return{dk,hours,extrema:ex};
+    });
+
+    // Hero stats
+    const td=allDays[0];
+    const now=new Date();
+    const cur=td.hours.find(h=>h.hour===now.getHours())||td.hours[0];
+    const noon=td.hours.find(h=>h.hour===12)||td.hours[0];
+    document.getElementById('hs-wind').textContent=`${Math.round(cur.wind)} kt`;
+    document.getElementById('hs-air').textContent=`${Math.round(noon.temp)}°C`;
+    document.getElementById('hs-water').textContent=`${ST}°C`;
+    document.getElementById('hs-score').textContent=TXT[best(td.hours)];
+    document.getElementById('sb-air').textContent=`🌡 ${Math.round(cur.temp)}°C`;
+
+    // Next excellent
+    const nxt=allDays.flatMap(d=>d.hours).find(h=>h.score==='excellent'&&h.dt>now);
+    if(nxt){
+      document.getElementById('next-window').style.display='flex';
+      document.getElementById('nw-heure').textContent=nxt.dt.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+      document.getElementById('nw-date').textContent=nxt.dt.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+      document.getElementById('nw-desc').textContent=`Vent ${Math.round(nxt.wind)} kt ${dn(nxt.dir)} · Marée haute · Conditions idéales`;
+    }
+
+    // Render days
+    list.innerHTML='';
+    allDays.forEach((day,idx)=>{
+      const isToday=idx===0;
+      const dt=new Date(day.dk+'T12:00:00');
+      const dayName=isToday?'📅 Aujourd\'hui':dt.toLocaleDateString('fr-FR',{weekday:'long'});
+      const dateStr=dt.toLocaleDateString('fr-FR',{day:'numeric',month:'long'});
+      const b=best(day.hours);
+      const hts=day.extrema.filter(e=>e.type==='HT');
+
+      // Day weather summary
+      const dayHours=day.hours.filter(h=>h.hour>=7&&h.hour<=20);
+      const tMax=Math.round(Math.max(...day.hours.map(h=>h.temp)));
+      const tMin=Math.round(Math.min(...day.hours.map(h=>h.temp)));
+      // Dominant weather code (worst between 10h-18h)
+      const midHours=day.hours.filter(h=>h.hour>=9&&h.hour<=18);
+      const domCode=(midHours.length?midHours:day.hours).reduce((a,h)=>h.code>a?h.code:a,0);
+
+      const dots=day.hours.filter(h=>h.hour%3===0).map(h=>
+        `<div class="hdot" title="${h.hour}h · ${Math.round(h.wind)}kt" style="background:${COL[h.score]}">${h.hour}</div>`
+      ).join('');
+
+      const rows=day.hours.map(h=>{
+        const wc=h.wind>=10?'ws-strong':h.wind>=7?'ws-ok':h.wind>=4?'ws-med':'ws-weak';
+        const tw=h.inWindow
+          ?`<span class="tw-yes">✦ ${h.diff>0?'+':''}${h.diff} min</span>`
+          :`<span class="tw-no">—</span>`;
+        return`<tr class="hrow${h.score==='excellent'?' hl':''}">
+          <td><strong>${f2(h.hour)}:00</strong></td>
+          <td>${wx(h.code)}</td>
+          <td class="${wc}">${Math.round(h.wind)} kt</td>
+          <td>${arr(h.dir)} ${dn(h.dir)}</td>
+          <td>${tbar(h.tideH)}</td>
+          <td>${tw}</td>
+          <td style="color:#fbbf24">${Math.round(h.temp)}°C</td>
+          <td><span class="iscore" style="background:${COL[h.score]}"></span>${TXT[h.score]}</td>
+        </tr>`;
+      }).join('');
+
+      const htBar=hts.length?`<div class="tide-info-bar">
+        <span>🌊 Marées hautes :</span>
+        ${hts.map(e=>`<div class="ht-entry"><span class="ht-time">${e.t.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}</span><span style="color:var(--muted)">(${e.h.toFixed(2)}m)</span></div>`).join('')}
+        <span style="margin-left:auto;font-size:.65rem">Fenêtre optimale = ±2h autour de chaque HT</span>
+      </div>`:'';
+
+      const card=document.createElement('div');
+      card.className=`day-card${isToday?' today':''}`;
+      card.innerHTML=`
+        <div class="day-header${isToday?' open':''}" onclick="toggleDay(this)">
+          <div class="day-info">
+            <div class="day-name">${dayName}</div>
+            <div class="day-date-str">${dateStr}</div>
+          </div>
+          <div class="hour-strip">${dots}</div>
+          <div class="wx-summary" title="Météo journalière">
+            <div class="wx-icon-big">${wx(domCode)}</div>
+            <div class="wx-temps">
+              <div class="wx-tmax">${tMax}°C</div>
+              <div class="wx-tmin">↓ ${tMin}°C</div>
+            </div>
+          </div>
+          <span class="score-badge ${CSS[b]}">${TXT[b]}</span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="day-body${isToday?' open':''}">
+          ${htBar}
+          <div class="hours-wrap">
+            <table class="htable">
+              <thead><tr><th>Heure</th><th>Météo</th><th>Vent</th><th>Direction</th><th>Marée</th><th>Fenêtre HT</th><th>Temp. air</th><th>Indice</th></tr></thead>
+              <tbody>${rows}</tbody>
+            </table>
+          </div>
+        </div>`;
+      list.appendChild(card);
+    });
+
+  } catch(e) {
+    list.innerHTML=`<div class="error-card">❌ <strong>Erreur :</strong> ${e.message}<br><br>
+    📌 <strong>Pour utiliser cette app :</strong> téléchargez le fichier .html et ouvrez-le directement dans Chrome, Firefox ou Safari sur votre ordinateur. Les données se chargent depuis votre navigateur.<br><br>
+    <button class="btn-refresh" onclick="loadAll()">↻ Réessayer</button></div>`;
+  }
+}
+
+function toggleDay(h){h.classList.toggle('open');h.nextElementSibling.classList.toggle('open');}
+
+loadAll();
+</script>
+</body>
+</html>
